@@ -22,6 +22,7 @@ int main(void){
         gridprint(grid, 0);
         printf("%s's turn with %c\n", Players[curplayer], cur);
         output('u');
+
         while(scanf("%d %d",&x, &z) == 2){
                 if(x > 3 || z > 3 || x < 1 || z < 1){
                         output('n');
@@ -36,28 +37,46 @@ int main(void){
                         if (checkgrid(grid) == 0)
                         {
                                 gridprint(grid, 1);
-                                output('f');
-                                output('a');
-                                if(playAgain()==1){
-                                        cleargrid(grid);
-                                        gridprint(grid, 0);
-                                        cur = 'X';
-                                        curplayer = 0;
-                                        printf("%s's turn with %c\n", Players[curplayer], cur);
-                                        output('u');
-                                        continue;
-                                }else {
-                                        printf("Bye!\n ");
-                                        return 0;
-                                }
-                                //return 0;
-                        }else {
+                                if(ifwin(cur, grid) == 1)
+                                        {
+                                        output('w');
+                                        printf("Winner is %s\n", Players[curplayer]);
+                                        //gridprint(grid, 1);
+                                        output('a');
+                                        if(playAgain()==1){
+                                                cleargrid(grid);
+                                                gridprint(grid, 0);
+                                                cur = 'X';
+                                                curplayer = 0;
+                                                continue;
+                                        }else {
+                                                printf("Bye \n!");
+                                                return 0;
+                                        }} else {
+                                          output('f');
+                                          output('a');
+                                          if(playAgain()==1){
+                                                cleargrid(grid);
+                                                gridprint(grid, 0);
+                                                cur = 'X';
+                                                curplayer = 0;
+                                                printf("%s's turn with %c\n", Players[curplayer], cur);
+                                                output('u');
+                                                continue;
+                                          }else {
+                                                printf("Bye!\n ");
+                                                return 0;
+                                        }
+                                      }
+
+                        } else {
                                 gridprint(grid, 0);
                                 if(cur == 'X')
                                 px ++;
                                 else po++;
-                                }
+                              }
                         }
+
                         if(px >= 3 || po >= 3)
                                 {
                                 if(ifwin(cur, grid) == 1)
@@ -72,7 +91,7 @@ int main(void){
                                                 cur = 'X';
                                                 continue;
                                         }else {
-                                                printf("Bye!");
+                                                printf("Bye! \n");
                                                 return 0;
                                         }
                                         }
@@ -90,5 +109,6 @@ int main(void){
                         output('u');
                 }
         return 0;
+
 
 }
