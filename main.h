@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
@@ -17,7 +18,7 @@ void gridprint(char pos[3][3], int color)
                 }
                 printf("|\n");
         }
-        printf(" ----------- \n"  ANSI_COLOR_RESET);    
+        printf(" ----------- \n"  ANSI_COLOR_RESET);
 }
 
 int checkgrid(char pos[3][3])
@@ -48,13 +49,13 @@ void output(char c){
 	switch(c)
 	{
 		case 'u': //usage
-			printf("Usage: Raw, Colon\nSelectPosition: ");
+			printf("Usage: Raw, Colon\nSelect Position: ");
 			break;
 		case 'c': //character out of range
 			printf("only x or o characters are accepted\n");
 			break;
-		case 'n': 
-			printf("Maximum position numver = 3\n");
+		case 'n':
+			printf(ANSI_COLOR_RED "Must be between 1 and 3" ANSI_COLOR_RESET "\n");
 			break;
 		case 'o': //occupied
 			printf(ANSI_COLOR_RED "Occupied... Choose Another" ANSI_COLOR_RESET "\n");
@@ -65,27 +66,59 @@ void output(char c){
 		case 'f':
 			printf(ANSI_COLOR_RED "It's a Tie :(" ANSI_COLOR_RESET "\n");
 				break;
+		case 'a':
+			printf("\nWanna Play Again?\n");
+			break;
+		case 'y':
+			printf("y/n: ");
+			break;
 		default:
 			printf("Usage: Xpos, Ypos\nSelectPosition: ");
 	}
 }
 
-char ifwin(char ch, char grid[3][3]){
+int ifwin(char ch, char grid[3][3]){
 	char winner;
-	if((grid[0][0] == ch && grid[0][1] == ch && grid[0][2] == ch) || 
+	if((grid[0][0] == ch && grid[0][1] == ch && grid[0][2] == ch) ||
 		(grid[0][0] == ch && grid[1][0] == ch && grid[2][0] == ch) ||
-		(grid[0][1] == ch && grid[1][1] == ch && grid[2][1] == ch) || 
-		(grid[0][2] == ch && grid[1][2] == ch && grid[0][2] == ch) ||
+		(grid[0][1] == ch && grid[1][1] == ch && grid[2][1] == ch) ||
+		(grid[0][2] == ch && grid[1][2] == ch && grid[2][2] == ch) ||
 		(grid[1][0] == ch && grid[1][1] == ch && grid[1][2] == ch) ||
 		(grid[2][0] == ch && grid[2][1] == ch && grid[2][2] == ch) ||
 		(grid[0][0] == ch && grid[1][1] == ch && grid[2][2] == ch))
 	{
-		winner = 'w';
-	} else 
-		winner = 'n';
+		winner = 1;
+	} else
+		winner = 0;
 	return winner;
 }
 
 
+int playAgain(void){
+	char input;
+	while (scanf("%c", &input) > 0){
+	if(isupper(input))
+		tolower(input);
+	if(input != 'y' && input != 'n'){
+			output('y');
+			input = ' ';
+			continue;
+	}
+	else if(input == 'y'){
+		return 1;
+		break;
+	}
+	else
+		return 0;
+}
+return 0;
+}
 
-
+void getName(char * playername, int size){
+  int index;
+  //char * playername = NULL;
+  fgets(playername, size, stdin);
+  index = strchr(playername, '\n') - playername;
+  playername[index] = '\0';
+  //return playername;
+}
