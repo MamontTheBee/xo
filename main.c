@@ -7,19 +7,20 @@ int main(void){
 
         char grid[3][3], cur = 'X', Players[2][10];
         int x, z, px = 0, po = 0, curplayer = 0;
-
+        system("clear");
         //username input
         printf("Name of player 1: ");
         getName(Players[0],10);
         printf("Name of player 2: ");
         getName(Players[1],10);
-        printf("p1: %s plays with X\n", Players[0]);
-        printf("p2: %s plays with O\n", Players[1]);
+
 
 
         //initial grid print
         cleargrid(grid);
         gridprint(grid, 0);
+        printf("p1: %s plays with X\n", Players[0]);
+        printf("p2: %s plays with O\n\n", Players[1]);
         printf("%s's turn with %c\n", Players[curplayer], cur);
         output('u');
 
@@ -81,14 +82,17 @@ int main(void){
                                 {
                                 if(ifwin(cur, grid) == 1)
                                         {
+                                        gridprint(grid, 1);
                                         output('w');
                                         printf("Winner is %s\n", Players[curplayer]);
-                                        gridprint(grid, 1);
                                         output('a');
                                         if(playAgain()==1){
                                                 cleargrid(grid);
                                                 gridprint(grid, 0);
                                                 cur = 'X';
+                                                curplayer = 0;
+                                                printf("%s's turn with %c\n", Players[curplayer], cur);
+                                                output('u');
                                                 continue;
                                         }else {
                                                 printf("Bye! \n");

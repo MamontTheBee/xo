@@ -6,6 +6,7 @@
 
 void gridprint(char pos[3][3], int color)
 {
+        system("clear");
         int i,j;
         if (color == 1)
         	printf(ANSI_COLOR_RED" ----------- \n");
@@ -70,7 +71,7 @@ void output(char c){
 			printf("\nWanna Play Again?\n");
 			break;
 		case 'y':
-			printf("y/n: ");
+			printf("\ny/n: ");
 			break;
 		default:
 			printf("Usage: Xpos, Ypos\nSelectPosition: ");
@@ -95,16 +96,17 @@ int ifwin(char ch, char grid[3][3]){
 
 
 int playAgain(void){
-	char input;
-	while (scanf("%c", &input) > 0){
-	if(isupper(input))
-		tolower(input);
-	if(input != 'y' && input != 'n'){
+	char input[100];
+
+  while (fgets(input, 100, stdin) > 0){
+	if(isupper(input[0]))
+		tolower(input[0]);
+	if(input[0] != 'y' && input[0] != 'n'){
 			output('y');
-			input = ' ';
+			//input = ' ';
 			continue;
 	}
-	else if(input == 'y'){
+	else if(input[0] == 'y'){
 		return 1;
 		break;
 	}
